@@ -251,7 +251,6 @@ export const parseUpdateSubscriptionPayload = (params: TypeOf<ReturnType<typeof 
         // Custom logic for fixed price to handle sequence replacement in path
         if(key === subscriptionKeys.fixedPrice){
             opItem.path = path.replace("{0}", opValue?.sequence || 1)
-            delete opValue?.sequence
             opValue = opValue?.value;
         }
 
