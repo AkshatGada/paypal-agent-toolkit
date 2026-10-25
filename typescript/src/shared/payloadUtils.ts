@@ -250,8 +250,9 @@ export const parseUpdateSubscriptionPayload = (params: TypeOf<ReturnType<typeof 
 
         // Custom logic for fixed price to handle sequence replacement in path
         if(key === subscriptionKeys.fixedPrice){
-            opItem.path = path.replace("{0}", opValue?.sequence || 1)
-            opValue = opValue?.value;
+            const fixedPrice = params.fixed_price;
+            opItem.path = path.replace("{0}", String(fixedPrice?.sequence || 1))
+            opValue = fixedPrice?.value;
         }
 
         // Creating the value structure expected in the payload
@@ -292,7 +293,7 @@ export const toCamelCaseKeys = (obj: any): any => {
     return obj;
 };
 
-export function toQueryString(params: TypeOf<ReturnType<typeof listDisputesParameters>>): string {
+export function toQueryString(params: Record<string, unknown>): string {
     return Object.entries(params)
       .filter(([_, value]) => value !== undefined && value !== null)
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
